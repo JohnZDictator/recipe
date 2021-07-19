@@ -1,29 +1,30 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:recipe_flutter/feature/pages/home/view/home.dart';
+import 'package:get/get.dart';
 
-void main() => runApp(MyApp());
+import 'package:recipe_flutter/feature/pages/home/view/home.dart';
+import 'feature/authentication/view/signin.dart';
+
+import 'feature/authentication/view/signup.dart';
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Recipe App',
-      home: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(icon: Icon(Icons.menu, color: Color.fromRGBO(228, 58, 130, 1.0),), onPressed: () { },),
-          actions: [
-            IconButton(
-              onPressed: (){}, 
-              icon: Icon(Icons.face, color: Color.fromRGBO(228, 58, 130, 1.0),),
-            ),
-          ],
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-        ),
-        body: HomePage(),
-      ),
+      home: HomePage(),
+      getPages: [
+        GetPage(name: '/home', page: () => HomePage()),
+        GetPage(name: '/signup', page: () => SignupPage()),
+        GetPage(name: '/signin', page: () => SigninPage()),
+        // GetPage(name: '/details', page: () => Page()),
+      ],
       debugShowCheckedModeBanner: false,
     );
   }
